@@ -221,19 +221,20 @@ namespace TorchSharp.Tensor
         [DllImport("libTorchSharp")]
         extern static bool THSTensor_requires_grad(IntPtr handle);
 
-        [DllImport("libTorchSharp")]
-        extern static bool THSTensor_set_requires_grad(IntPtr handle, bool requires_grad);
-
-        public bool RequiresGrad
+        public bool IsGradRequired
         {
             get
             {
                 return THSTensor_requires_grad(handle);
             }
-            set
-            {
-                THSTensor_set_requires_grad(handle, value);
-            }
+        }
+
+        [DllImport("libTorchSharp")]
+        extern static IntPtr THSTensor_set_requires_grad(IntPtr handle, bool requires_grad);
+
+        public TorchTensor RequiresGrad(bool requiresGrad)
+        {
+            return new TorchTensor(THSTensor_set_requires_grad(handle, requiresGrad));
         }
 
         [DllImport("libTorchSharp")]
