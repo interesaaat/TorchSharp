@@ -305,6 +305,26 @@ namespace TorchSharp.Test
         }
 
         [TestMethod]
+        public void TestGt()
+        {
+            using (var input = FloatTensor.Random(new long[] { 2,2 }))
+            using (var gt = input.Gt(0.5.ToScalar()))
+            {
+                for(int i = 0; i < 4; i++)
+                {
+                    if (input.Data<float>()[i] > 0.5)
+                    {
+                        Assert.IsTrue(gt.Data<byte>()[i] == 1);
+                    }
+                    else
+                    {
+                        Assert.IsTrue(gt.Data<byte>()[i] == 0);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public void TestCreateLinear()
         {
             var lin = NN.Module.Linear(1000, 100);
